@@ -39,7 +39,7 @@ export default class Login extends React.Component{
   }
 
   redirect = () => {
-    this.props.history.push('/playroom')
+    this.props.history.push('/playrooms')
   }
 
   handleErrors = () => {

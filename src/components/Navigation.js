@@ -11,16 +11,25 @@ const Navigation = (props) => {
     })
     .catch(err => console.warn('log out errors:', err))
   }
+
+  console.log(props);
+
   return(
     <div>
       <nav>
-        <h1>Quick Draw</h1>
-        <Link to='/'>Home</Link>
-        <Link to='/login'>Login</Link>
-        <Link to='/signup'>Sign Up</Link>
-        <br/><br/>
         {
-          props.loggedInStatus ? <Link to='/' onClick={handleClick}>Log Out</Link> : null
+          !props.loggedInStatus
+          ?
+          <div>
+            <Link to='/login'>Login</Link>
+            <br/>
+            <Link to='/signup'>Sign Up</Link>
+          </div>
+          :
+          <div>
+            <h2>{ props.userDetails && props.userDetails.username}</h2>
+            <Link to='/' onClick={handleClick}>Log Out</Link>
+          </div>
         }
       </nav>
     </div>
