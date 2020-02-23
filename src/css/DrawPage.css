@@ -1,6 +1,10 @@
-.drawPanel{
+.drawPanel-container-top{
+  text-align: center;
+  width: 80%;
+  height: 20%;
+}
+.drawPanel, .drawPanel-container-top{
   border: 1px solid black;
-  width: 50vw;
-  height: 30vw;
-  margin: auto;
+
+  margin: 0 auto;
 }

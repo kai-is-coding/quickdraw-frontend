@@ -12,7 +12,7 @@ const Navigation = (props) => {
     .catch(err => console.warn('log out errors:', err))
   }
 
-  console.log(props);
+  // console.log(props);
 
   return(
     <div>
