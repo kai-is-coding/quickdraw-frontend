@@ -4,8 +4,8 @@ import {Link} from 'react-router-dom';
 
 export default class Login extends React.Component{
   state = {
-    email: '', // TODO: remove in prod!
-    password: '',
+    email: 'test1@ga.co', // TODO: remove in prod!
+    password: 'chicken',
     errors: ''
   };
 
@@ -23,7 +23,7 @@ export default class Login extends React.Component{
       password: this.state.password
     }
 
-    axios.post('https://quickdraw-backend.herokuapp.com/login', {user}, {withCredentials: true})
+    axios.post('http://localhost:3001/login', {user}, {withCredentials: true})
     .then(res => {
       if (res.data.logged_in) {
         console.log(res.data)
@@ -54,15 +54,15 @@ export default class Login extends React.Component{
     )
   }
 
+  // const {email, password} = this.state
   render(){
-    const {email, password} = this.state
 
     return (
       <div>
         <h1>Login</h1>
           <form onSubmit={this.handleSubmit}>
-            <input placeholder="email" type="text" name="email" value={email} onChange={this.handleChange}/>
-            <input placeholder="password" type="password" name="password" value={password} onChange={this.handleChange}/>
+            <input placeholder="email" type="text" name="email" defaultValue="test1@ga.co" onChange={this.handleChange}/>
+            <input placeholder="password" type="password" name="password" defaultValue="chicken" onChange={this.handleChange}/>
             <button placeholder="submit" type="submit">Log In</button>
             <div>
              or <Link to='/signup'>sign up</Link>
