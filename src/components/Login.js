@@ -23,7 +23,7 @@ export default class Login extends React.Component{
       password: this.state.password
     }
 
-    axios.post('http://localhost:3001/login', {user}, {withCredentials: true})
+    axios.post('https://quickdraw-backend.herokuapp.com/login', {user}, {withCredentials: true})
     .then(res => {
       if (res.data.logged_in) {
         console.log(res.data)
