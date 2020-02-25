@@ -4,8 +4,8 @@ import {Link} from 'react-router-dom';
 
 export default class Login extends React.Component{
   state = {
-    email: 'test1@ga.co', // TODO: remove in prod!
-    password: 'chicken',
+    email: '', // TODO: remove in prod!
+    password: '',
     errors: ''
   };
 
@@ -55,12 +55,14 @@ export default class Login extends React.Component{
   }
 
   render(){
+    const {email, password} = this.state
+
     return (
       <div>
         <h1>Login</h1>
           <form onSubmit={this.handleSubmit}>
-            <input placeholder="email" type="text" name="email" defaultValue="test1@ga.co" onChange={this.handleChange}/>
-            <input placeholder="password" type="password" name="password" defaultValue="chicken" onChange={this.handleChange}/>
+            <input placeholder="email" type="text" name="email" value={email} onChange={this.handleChange}/>
+            <input placeholder="password" type="password" name="password" value={password} onChange={this.handleChange}/>
             <button placeholder="submit" type="submit">Log In</button>
             <div>
              or <Link to='/signup'>sign up</Link>
@@ -74,6 +76,5 @@ export default class Login extends React.Component{
       </div>
     );
   }
-  // const {username, email, password} = this.state
-  
+
 }
