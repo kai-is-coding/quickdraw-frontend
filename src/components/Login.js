@@ -55,7 +55,6 @@ export default class Login extends React.Component{
   }
 
   render(){
-    const {username, email, password} = this.state
     return (
       <div>
         <h1>Login</h1>
@@ -75,4 +74,6 @@ export default class Login extends React.Component{
       </div>
     );
   }
+  // const {username, email, password} = this.state
+  
 }
