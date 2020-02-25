@@ -9,6 +9,10 @@ import Login from './components/Login';
 import SignUp from './components/SignUp';
 import DrawPage from './components/DrawPage';
 
+// import {ActionCableProvider} from 'react-actioncable-provider';
+// import {API_WS_ROOT} from './constants';
+
+
 export default class Routes extends React.Component {
   // maintain login status data
   state = {
@@ -79,8 +83,8 @@ export default class Routes extends React.Component {
             <Route exact path="/signup" render={
               props => (<SignUp {...props} handleLogin={this.handleLogin} loggedInStatus = {this.state.isLoggedIn}/>)
             }/>
-          <Route exact path="/playrooms/:id" render={
-              props => (<DrawPage {...props} handleLogin={this.handleLogin} loggedInStatus = {this.state.isLoggedIn}/>)
+            <Route exact path="/playrooms/:id" render={
+              props => (<DrawPage {...props} handleLogin={this.handleLogin} loggedInStatus = {this.state.isLoggedIn} userDetails = {this.state.user} /> )
             }/>
           </Switch>
         </div>
@@ -89,3 +93,11 @@ export default class Routes extends React.Component {
     );
   }
 }
+
+// exact path="/playrooms/:id" render={
+//    props => (
+//      <ActionCableProvider url={API_WS_ROOT}>
+//        <DrawPage {...props} handleLogin={this.handleLogin} loggedInStatus = {this.state.isLoggedIn}/>
+//      </ActionCableProvider>
+//    )
+// }/>
