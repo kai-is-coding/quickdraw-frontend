@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/quickdraw-frontend/static/css/main.d5325fb6.chunk.css",
-    "main.js": "/quickdraw-frontend/static/js/main.59897174.chunk.js",
-    "main.js.map": "/quickdraw-frontend/static/js/main.59897174.chunk.js.map",
+    "main.js": "/quickdraw-frontend/static/js/main.7f602138.chunk.js",
+    "main.js.map": "/quickdraw-frontend/static/js/main.7f602138.chunk.js.map",
     "runtime-main.js": "/quickdraw-frontend/static/js/runtime-main.69c29597.js",
     "runtime-main.js.map": "/quickdraw-frontend/static/js/runtime-main.69c29597.js.map",
     "static/js/2.b2989c10.chunk.js": "/quickdraw-frontend/static/js/2.b2989c10.chunk.js",
     "static/js/2.b2989c10.chunk.js.map": "/quickdraw-frontend/static/js/2.b2989c10.chunk.js.map",
     "index.html": "/quickdraw-frontend/index.html",
-    "precache-manifest.0ae058a513361a57f0098f94808f12f1.js": "/quickdraw-frontend/precache-manifest.0ae058a513361a57f0098f94808f12f1.js",
+    "precache-manifest.59b8a0e696f4e10b54edd095aa4f0fa6.js": "/quickdraw-frontend/precache-manifest.59b8a0e696f4e10b54edd095aa4f0fa6.js",
     "service-worker.js": "/quickdraw-frontend/service-worker.js",
     "static/css/main.d5325fb6.chunk.css.map": "/quickdraw-frontend/static/css/main.d5325fb6.chunk.css.map",
     "static/js/2.b2989c10.chunk.js.LICENSE.txt": "/quickdraw-frontend/static/js/2.b2989c10.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.69c29597.js",
     "static/js/2.b2989c10.chunk.js",
     "static/css/main.d5325fb6.chunk.css",
-    "static/js/main.59897174.chunk.js"
+    "static/js/main.7f602138.chunk.js"
   ]
 }
