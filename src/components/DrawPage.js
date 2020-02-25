@@ -2,10 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import '../css/DrawPage.css';
-// import Sketch from 'react-p5';
 import CanvasDraw from 'react-canvas-draw';
-
-// import {ActionCableConsumer} from 'react-actioncable-provider';
 
 import {API_WS_ROOT} from '../constants';
 import ActionCable from 'actioncable';
@@ -19,12 +16,13 @@ export default class DrawPage extends React.Component{
     width: window.innerWidth * 0.8,
     height: window.innerHeight * 0.5,
     color: '#fff',
-    room: null
+    room: null,
+    inputMessage: null,
+    receivedMessage: null
   };
 
   componentDidMount(){
     const playroom_id = this.props.match.params.id;
-    // const id = this.props.params.match;
 
     axios.get(
       `http://localhost:3001/playrooms/${playroom_id}`,{withCredentials: true})
@@ -40,22 +38,30 @@ export default class DrawPage extends React.Component{
       {channel: 'DrawsChannel'},
       {
         connected: () => {
-          console.log('WS CONNECTED!');
+          console.log('DrawsChannel WS CONNECTED!');
         },
         received: (data) => {
-          console.log('RECEIVED DATA', data);
-          if (this.loadableCanvas && data.line){
+          console.log('RECEIVED DrawsChannel DATA', data);
+          if (this.loadableCanvas && data.action === "send_line"){
             this.loadableCanvas.clear();
-            this.loadableCanvas.simulateDrawingLines({lines: data.line.lines, immediate: true});
+            this.loadableCanvas.simulateDrawingLines({lines: data.lines, immediate: true});
+          }
+          else if (data.action === "send_message") {
+            console.log('receivedMessage:', data.inputMessage);
+            this.setState({receivedMessage: data.inputMessage})
           }
         },
+
         sendLine: function(lines){
-          console.log('BEFORE STRINGIFY', lines);
           this.perform('send_line', lines);
+        },
+
+        sendMessage: function(message){
+          this.perform('send_message', message)
         }
       }
-    );
-  }
+    );//this.draw
+  }//componentDidMount()
 
   handleChange = (event) => {
     // window.lines = event.lines;
@@ -69,6 +75,17 @@ export default class DrawPage extends React.Component{
     this.draw.sendLine({lines: []});
   }
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('message submit:', this.state.inputMessage);
+    this.draw.sendMessage({inputMessage: this.state.inputMessage});
+  }
+
+  handleMessageChange = (event) => {
+    this.setState({inputMessage: event.target.value})
+  }
+
+
   render(){
     return(
       <div>
@@ -79,7 +96,14 @@ export default class DrawPage extends React.Component{
         <div className='drawPanel-container'>
           <div className='drawPanel-container-top'>
             <h2>Draw here!</h2>
-
+            {
+              this.state.receivedMessage?
+              <div className='message-from-gusser'>
+                {this.state.receivedMessage}
+              </div>
+              :
+              null
+            }
             <button onClick={() => {
               this.clearCanvas();
             }}>
@@ -95,6 +119,7 @@ export default class DrawPage extends React.Component{
               onChange={this.handleChange}
               canvasWidth={this.state.width}
               canvasHeight={this.state.height}
+
               ref={canvasDraw => (this.saveableCanvas = canvasDraw)}
             />
 
@@ -111,6 +136,11 @@ export default class DrawPage extends React.Component{
             disabled
             ref={canvasDraw => (this.loadableCanvas = canvasDraw)}
           />
+
+        <form onSubmit={this.handleSubmit}>
+          <input type="text" placeholder="Type Your Answer Here!" onChange={this.handleMessageChange}/>
+          <button type="submit">Answer!</button>
+        </form>
         </div>
          :
         <h2>Please <Link to='/login'>Login</Link> to continue draw!</h2>
