@@ -7,7 +7,7 @@ import clear from '../image/clear.png';
 import undo from '../image/undo.png';
 
 import CanvasDraw from 'react-canvas-draw';
-import Loadingpage from './Loadingpage';
+// import Loadingpage from './Loadingpage';
 import {API_WS_ROOT} from '../constants';
 import ActionCable from 'actioncable';
 
