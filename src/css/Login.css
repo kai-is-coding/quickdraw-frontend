@@ -1,0 +1,58 @@
+.login {
+  width: 25vw;
+  height: 60vh;
+  margin: auto;
+  margin-top: 8vh;
+  margin-bottom: 8vh;
+  text-align: center;
+  font-size: 1.5em;
+  border-radius: 10px;
+  background-image: url('https://images.pexels.com/photos/1762851/pexels-photo-1762851.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+  background-size: cover;
+}
+
+.login > h1 {
+  padding-top: 5vh;
+  color: #24305e;
+}
+
+.login > form >input {
+  margin: 10px;
+  height: 5vh;
+  width: 17vw;
+  border-radius: 5px;
+  font-size: 1em;
+  color: #374785;
+  font-family: 'Acme', sans-serif;
+  background-color:rgba(83, 78, 79, 0.49);
+}
+
+.submit {
+  width: 7vw;
+  height: 5vh;
+  background-color: #24305e;
+  font-size: 1em;
+  font-family: 'Acme', sans-serif;
+  color: white;
+  border-radius: 5px;
+}
+.submit:hover{
+  color: #f8e9a1;
+  transform: scale(1.2);
+}
+
+.or {
+  margin-top: 2vh;
+}
+
+.or > span {
+  color: #f76c6c;
+}
+.or > .signup {
+  padding-left: 3px;
+  text-decoration: none;
+  color: white;
+}
+.or > .signup:hover {
+  color: #f8e9a1;
+}

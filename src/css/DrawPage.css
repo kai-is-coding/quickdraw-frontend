@@ -1,10 +1,52 @@
+.container{
+  margin: 0 auto;
+}
 .drawPanel-container-top{
   text-align: center;
-  width: 80%;
-  height: 20%;
+  /* width: 80%;
+  height: 20%; */
 }
-.drawPanel, .drawPanel-container-top{
-  border: 1px solid black;
 
-  margin: 0 auto;
+.draw-word {
+  margin-top: 5vh;
+  font-size: 1.5em;
+  color: #374785;
+}
+.draw-word > span {
+  margin-left: 10px;
+  font-size: 2em;
+  color: #f76c6c;
+}
+.drawPanel-container-top > h3 {
+  font-size: 1.5em;
+  color: #f8e9a1;
+}
+.drawPanel-container-top > h3 > span {
+  font-size: 2em;
+  color: #f76c6c;
+}
+
+.draw {
+  width: 62%;
+  margin: auto;
+  border-radius: 5px;
+  box-shadow: 0 0 0 10px #374785;
+  padding: 5px;
+}
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-right:
+}
+.clear, .undo{
+  margin: 5px;
+  width: 2vw;
+  height: 3vh;
+
+}
+.drawPanel {
+  margin: auto;
+  margin-bottom: 6px;
+  border-radius: 10px;
 }

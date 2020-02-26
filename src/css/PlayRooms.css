@@ -13,3 +13,17 @@
   width: 5vw;
   height: 5vh;
 }
+
+.message > h2 {
+  margin-left: 10px;
+  color: #f76c6c;
+}
+
+#loginLink {
+  text-decoration: none;
+  color: #374785;
+}
+
+#loginLink:hover {
+  color: #f8e9a1;
+}

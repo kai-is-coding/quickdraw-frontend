@@ -1,0 +1,10 @@
+
+.links, .user{
+  text-decoration: none;
+  color: white;
+  margin: 10px;
+  font-size: 1.3em;
+}
+.links:hover, .user:hover {
+  color: #f8e9a1;
+}

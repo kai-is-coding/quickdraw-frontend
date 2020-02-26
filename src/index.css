@@ -1,13 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Acme&display=swap');
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  margin: 8px;
+  font-family: 'Acme', sans-serif;
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+
+  background-color: #a8d0e6;
+  /* background-image: url(image/background.jpg); */
+  /* background-size: cover; */
+  /* padding: 10px; */
 }

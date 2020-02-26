@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import '../css/Login.css';
 
 export default class Login extends React.Component{
   state = {
@@ -42,37 +43,42 @@ export default class Login extends React.Component{
     this.props.history.push('/playrooms')
   }
 
-  handleErrors = () => {
-    return(
-      <div>
-        <ul>
-          {this.state.errors.map(err => {
-            return <li key={err}>{err}</li>
-          })}
-        </ul>
-      </div>
-    )
-  }
+  // handleErrors = () => {
+  //   return(
+  //     <div className="errors">
+  //       <ul>
+  //         {this.state.errors.map(err => {
+  //           return <li key={err}>{err}</li>
+  //         })}
+  //       </ul>
+  //     </div>
+  //   )
+  // }
 
   // const {email, password} = this.state
   render(){
 
     return (
-      <div>
+      <div className="login">
         <h1>Login</h1>
-          <form onSubmit={this.handleSubmit}>
-            <input placeholder="email" type="text" name="email" defaultValue="test1@ga.co" onChange={this.handleChange}/>
-            <input placeholder="password" type="password" name="password" defaultValue="chicken" onChange={this.handleChange}/>
-            <button placeholder="submit" type="submit">Log In</button>
-            <div>
-             or <Link to='/signup'>sign up</Link>
-            </div>
-          </form>
           <div>
             {
-              this.state.errors ? this.handleErrors() : null
+              this.state.errors ?
+               <span>oophs...something wrong try again!</span>
+               :
+               null
             }
           </div>
+          <form onSubmit={this.handleSubmit}>
+            <input placeholder="email" type="text" name="email" defaultValue="test1@ga.co" onChange={this.handleChange}/>
+            <br/>
+            <input placeholder="password" type="password" name="password" defaultValue="chicken" onChange={this.handleChange}/>
+            <br/>
+            <button placeholder="submit" type="submit" className="submit">Log In</button>
+            <div className="or">
+             <span>OR |</span> <Link to='/signup' className="signup">Sign Up</Link>
+            </div>
+          </form>
       </div>
     );
   }

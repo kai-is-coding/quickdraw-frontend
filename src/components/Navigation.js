@@ -1,6 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
+import '../css/Navigation.css';
+import '../index.css';
+
+
 
 const Navigation = (props) => {
   const handleClick = () => {
@@ -16,19 +20,19 @@ const Navigation = (props) => {
 
   return(
     <div>
+
       <nav>
         {
           !props.loggedInStatus
           ?
-          <div>
-            <Link to='/login'>Login</Link>
-            <br/>
-            <Link to='/signup'>Sign Up</Link>
+          <div className="user">
+            <Link to='/login' className="links">Login</Link>
+            <Link to='/signup' className="links">Sign Up</Link>
           </div>
           :
-          <div>
-            <h2>{ props.userDetails && props.userDetails.username}</h2>
-            <Link to='/' onClick={handleClick}>Log Out</Link>
+          <div className="user">
+            <span className="user">{ props.userDetails && props.userDetails.username}</span>
+            <Link to='/' onClick={handleClick} className="links">Log Out</Link>
           </div>
         }
       </nav>

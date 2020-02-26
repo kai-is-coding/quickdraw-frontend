@@ -8,6 +8,7 @@ import PlayRooms from './components/PlayRooms';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import DrawPage from './components/DrawPage';
+import './css/Routes.css';
 
 // import {ActionCableProvider} from 'react-actioncable-provider';
 // import {API_WS_ROOT} from './constants';
@@ -44,7 +45,8 @@ export default class Routes extends React.Component {
   loginStatus = () => {
     // withCredentials: true is the key point!!
     // it allows out rails server to set and read the cookie on the front end
-    axios.get('https://quickdraw-backend.herokuapp.com/logged_in', {withCredentials: true})
+    // axios.get('https://quickdraw-backend.herokuapp.com/logged_in', {withCredentials: true})
+    axios.get('http://localhost:3001/logged_in', {withCredentials: true})
     .then(res => {
       if (res.data.logged_in) {
         this.handleLogin(res.data)
@@ -58,19 +60,26 @@ export default class Routes extends React.Component {
     return (
       <div>
       <Router>
-        <h1>Quick Draw</h1>
+        <div className='header'>
+          <h1>Quick Draw</h1>
+          <div className="routesNav">
+            <div className="links">
+              <Link to='/' className="navLinks">Home</Link>
+              <Link to='/playrooms' className="navLinks">PlayRooms</Link>
 
-        <Link to='/'>Home</Link> <br/>
-        <Link to='/playrooms'>PlayRooms</Link>
-        <Route path="/" render={props => (
-            <Navigation
-              {...props}
-              handleLogout={this.handleLogout}
-              loggedInStatus = {this.state.isLoggedIn}
-              userDetails = {this.state.user}
-            />
-        )} />
-        <hr/>
+            </div>
+            <div className="Navigation">
+              <Route path="/" render={props => (
+                  <Navigation
+                    {...props}
+                    handleLogout={this.handleLogout}
+                    loggedInStatus = {this.state.isLoggedIn}
+                    userDetails = {this.state.user}
+                    />
+                )} />
+              </div>
+            </div>
+        </div>
         <div>
           <Switch>
             <Route exact path="/" component={Home}/>
@@ -89,15 +98,8 @@ export default class Routes extends React.Component {
           </Switch>
         </div>
       </Router>
+      <footer>&copy; Quick Draw By Kai Yang 2020</footer>
       </div>
     );
   }
 }
-
-// exact path="/playrooms/:id" render={
-//    props => (
-//      <ActionCableProvider url={API_WS_ROOT}>
-//        <DrawPage {...props} handleLogin={this.handleLogin} loggedInStatus = {this.state.isLoggedIn}/>
-//      </ActionCableProvider>
-//    )
-// }/>
