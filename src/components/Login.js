@@ -5,8 +5,8 @@ import '../css/Login.css';
 
 export default class Login extends React.Component{
   state = {
-    email: 'test1@ga.co', // TODO: remove in prod!
-    password: 'chicken',
+    email: '', // TODO: remove in prod!
+    password: '',
     errors: ''
   };
 
@@ -56,8 +56,8 @@ export default class Login extends React.Component{
   //   )
   // }
 
-  // const {email, password} = this.state
   render(){
+    const {email, password} = this.state
 
     return (
       <div className="login">
@@ -71,9 +71,9 @@ export default class Login extends React.Component{
             }
           </div>
           <form onSubmit={this.handleSubmit}>
-            <input placeholder="email" type="text" name="email" defaultValue="test1@ga.co" onChange={this.handleChange}/>
+            <input placeholder="email" type="text" name="email" value={email} onChange={this.handleChange}/>
             <br/>
-            <input placeholder="password" type="password" name="password" defaultValue="chicken" onChange={this.handleChange}/>
+            <input placeholder="password" type="password" name="password" value={password} onChange={this.handleChange}/>
             <br/>
             <button placeholder="submit" type="submit" className="submit">Log In</button>
             <div className="or">

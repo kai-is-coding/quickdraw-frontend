@@ -13,7 +13,7 @@ const Home = () => {
           In modern times, fast draw can be seen both in sports and in military practices. The World Fast Draw Association (WFDA) is the international sanctioning body of the sport of fast draw. Unlike cowboy action shooting, fast draw is shot with special blanks or wax bullets. While some competitions are strictly against the clock, with the fastest time winning, many are set up as head to head single or double elimination matches.
         </p>
         <div className="showpage">
-          <img src="https://3.bp.blogspot.com/-0xG5sTRqPtQ/W-2oJuTNWmI/AAAAAAAABvU/GcYue9KOUyw7ZfUq-SgDUJNisYeiP8_GgCLcBGAs/s1600/image9.jpg" alt="image"/>
+          <img src="https://3.bp.blogspot.com/-0xG5sTRqPtQ/W-2oJuTNWmI/AAAAAAAABvU/GcYue9KOUyw7ZfUq-SgDUJNisYeiP8_GgCLcBGAs/s1600/image9.jpg" alt="showpage"/>
         </div>
       </nav>
     </div>
