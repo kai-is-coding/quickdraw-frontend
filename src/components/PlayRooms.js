@@ -12,8 +12,8 @@ class PlayRooms extends React.Component {
   }
 
   componentDidMount(){
-    axios.get(
-      `http://localhost:3001/playrooms`,{withCredentials: true})
+    // axios.get(`http://localhost:3001/playrooms`,{withCredentials: true})
+    axios.get(`https://quickdraw-backend.herokuapp.com/playrooms`,{withCredentials: true})
     .then( res => {
       this.setState({ rooms: res.data });
       console.log('rooms:',this.state.rooms[0]);
