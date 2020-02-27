@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a2178b2af8ef4b73aab0b7662922c755",
+    "revision": "7a279379b4cf56be1ce75647bc4c44e9",
     "url": "/quickdraw-frontend/index.html"
   },
   {
-    "revision": "6e9c88d41f2f3caedcb8",
+    "revision": "21ccddd6fa1a04d730be",
     "url": "/quickdraw-frontend/static/css/main.091554aa.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/quickdraw-frontend/static/js/2.8861ca5c.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "6e9c88d41f2f3caedcb8",
-    "url": "/quickdraw-frontend/static/js/main.70edac4b.chunk.js"
+    "revision": "21ccddd6fa1a04d730be",
+    "url": "/quickdraw-frontend/static/js/main.b7889e6a.chunk.js"
   },
   {
     "revision": "c3961660740dc90ac7f3",
