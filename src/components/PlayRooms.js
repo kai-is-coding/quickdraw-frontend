@@ -140,7 +140,7 @@ class PlayRooms extends React.Component {
 
     this.playroom.sendRoomSelectionUpdate({roomId, role, index, userId: this.state.currentUser});
 
-    axios.patch(`https://quickdraw-backend.herokuapp.com/users/${this.props.userDetails.id}`,{withCredentials: true})
+    axios.patch(`https://quickdraw-backend.herokuapp.com/users/${this.props.userDetails.id}`, {playroom_id: roomId, draw: false }, {withCredentials: true})
     // axios.patch(`http://localhost:3001/users/${this.props.userDetails.id}`,{playroom_id: roomId, draw: false }, {withCredentials: true})
     .then(ren => {
       console.log('update user guesser successfully!');
