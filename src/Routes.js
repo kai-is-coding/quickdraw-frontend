@@ -43,10 +43,11 @@ export default class Routes extends React.Component {
   }
 
   loginStatus = () => {
+    console.log("CHECKING IF USER LOGGED IN");
     // withCredentials: true is the key point!!
     // it allows out rails server to set and read the cookie on the front end
-    axios.get('https://quickdraw-backend.herokuapp.com/logged_in', {withCredentials: true})
-    // axios.get('http://localhost:3001/logged_in', {withCredentials: true})
+    // axios.get('https://quickdraw-backend.herokuapp.com/logged_in', {withCredentials: true})
+    axios.get('http://localhost:3001/logged_in', {withCredentials: true})
     .then(res => {
       if (res.data.logged_in) {
         this.handleLogin(res.data)
@@ -54,7 +55,7 @@ export default class Routes extends React.Component {
         this.handleLogout()
       }
     })
-    .catch(err => console.warn('api errors:', err));
+    .catch(err => console.warn("COULDN'T GET USER:", err));
   }
   render (){
     return (
