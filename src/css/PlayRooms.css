@@ -1,17 +1,65 @@
-.playrooms-container, .users-container {
+.container {
+  margin: auto;
+  height: 70vh;
+  text-align: center;
+  /* border: 1px solid black; */
+}
+
+.title, .roomTitle{
+  color: #f76c6c;
+}
+.roomTitle {
+  font-size: 2em;
+}
+
+
+.playrooms-container {
+  margin-top: 7vh;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
 }
 .playrooms {
-  border: 1px solid black;
-  width: 10vw;
-  height: 10vh;
+  border-radius: 5px;
+  box-shadow: 0 0 0 10px #374785;
+  width: 30%;
+  text-align: center;
+  /* margin: 15px auto; */
+  /* margin-bottom: 15vh; */
 }
-.users {
-  border: 1px solid black;
-  width: 5vw;
-  height: 5vh;
+.drawer-guesser-container {
+  display: flex;
+  flex-direction: row;
+  /* border: 1px solid black; */
+  /* height: 30vh; */
+  justify-content: space-between;
+  margin: 10px auto;
+}
+
+.drawer-container, .guesser-container{
+  position: relative;
+  width: 50%;
+  /* height: 35vh; */
+  border-top: 6px solid #f8e9a1;
+}
+/* .drawer-container{
+  border-right: 3px solid #f8e9a1;
+}
+.guesser-container {
+  border-left: 3px solid #f8e9a1;
+} */
+
+
+.subTitle {
+  font-size: 1.5em;
+  color:
+}
+.drawer, .guesser {
+  position: relative;
+  margin: 5px auto;
+  width: 4vw;
+  height: 6vh;
+  border-radius: 10px;
 }
 
 .message > h2 {
@@ -26,4 +74,18 @@
 
 #loginLink:hover {
   color: #f8e9a1;
+}
+
+.start {
+  color: #f76c6c;
+  font-family: 'Acme', sans-serif;
+  font-size: 1em;
+  margin: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 0 5px #374785;
+}
+
+.start:hover{
+  background-color: #f8e9a1;
+  transform: scale(1.2);
 }

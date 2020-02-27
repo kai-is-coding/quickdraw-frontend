@@ -28,7 +28,9 @@
 }
 
 footer {
-  margin-top: 3vh;
+  position: relative;
+  bottom: 0px;
+  margin-top: 16vh;
   padding-left: 10px;
   color: white;
   background-color: #f76c6c;

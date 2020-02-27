@@ -16,6 +16,8 @@ import ActionCable from 'actioncable';
 
 export default class DrawPage extends React.Component{
 
+  timerID = null;
+
   state = {
     width: window.innerWidth * 0.6,
     height: window.innerHeight * 0.5,
@@ -25,11 +27,15 @@ export default class DrawPage extends React.Component{
     receivedMessage: null,
     // currentWord: null,
     // receivedCurrentWord: null,
-    seconds: 30,
-    receivedSeconds: 30
+    // seconds: 30,
+    receivedSeconds: 30,
+    restart: false,
+    findMessage: null,
+    answer: null
   };
   // inital values
   // give empty word container
+  seconds = 30;
   wordsArray = [];
   currentWord = null;
   receivedCurrentWord = null;
@@ -49,6 +55,8 @@ export default class DrawPage extends React.Component{
     })
     .catch(err => console.warn('playroom errors: ', err));
 
+
+    // generate websocket connection
     this.cable = ActionCable.createConsumer(API_WS_ROOT);
     this.draw = this.cable.subscriptions.create(
       {channel: 'DrawsChannel', playroom: `${playroom_id}`},
@@ -77,6 +85,15 @@ export default class DrawPage extends React.Component{
             this.receivedCurrentWord = data.word
             console.log('receivedCurrentWord:', this.receivedCurrentWord);
           }
+          else if (data.action === "send_game_status") {
+            console.log('changed game status!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+            if (data.status === 'true') {
+              this.startGame();
+            }
+          }
+          else if (data.action === "send_find") {
+            this.setState({findMessage: data.find})
+          }
         },
 
         sendLine: function(lines){
@@ -93,6 +110,12 @@ export default class DrawPage extends React.Component{
 
         sendWord: function(word){
           this.perform('send_word', word);
+        },
+        sendGameStatus: function(status){
+          this.perform('send_game_status', status)
+        },
+        sendFind: function(find){
+          this.perform('send_find', find);
         }
       }
     );//this.draw
@@ -108,7 +131,10 @@ export default class DrawPage extends React.Component{
 
   //clear canvas and send empty array to websocket to clear the canvas on the other client side.
   clearCanvas = () => {
-    this.saveableCanvas.clear();
+    if (this.saveableCanvas) {
+
+      this.saveableCanvas.clear();
+    }
     this.draw.sendLine({lines: []});
   }
 
@@ -127,7 +153,7 @@ export default class DrawPage extends React.Component{
 
   // generateRandomWords and display
   generateRandomWords = () => {
-    // wwords container
+    // words container
     const words = ['aircraft carrier', 'airplane', 'alarm clock', 'ambulance', 'angel',
     'animal migration', 'ant', 'anvil', 'apple', 'arm', 'asparagus', 'axe',
     'backpack', 'banana', 'bandage', 'barn', 'baseball', 'baseball bat', 'basket',
@@ -192,15 +218,22 @@ export default class DrawPage extends React.Component{
       // console.log(this.currentWord);
       this.draw.sendWord({word: this.currentWord});
     }
-
-    const timer = window.setInterval(() => {
-      this.setState({seconds: this.state.seconds - 1});
-      this.draw.sendTime({time: this.state.seconds});
-      if (this.state.seconds <= 0) {
-        clearInterval(timer);
-      }
-    }, 1000);
   }
+
+
+  timer = () => {
+    this.timerID = window.setInterval(() => {
+    // this.setState({seconds: this.seconds - 1});
+    this.seconds -= 1;
+    this.draw.sendTime({time: this.seconds});
+    if (this.seconds <= 0 && !this.compareResults) {
+      clearInterval(this.timerID);
+      this.startGame();
+      if (this.saveableCanvas) {
+        this.saveableCanvas.clear();
+      }
+    }
+  }, 1000)}
 
   compareResults = () => {
     console.log('currentWord:', this.receivedCurrentWord);
@@ -210,13 +243,26 @@ export default class DrawPage extends React.Component{
 
     if (question === answer || answer.includes(question)) {
       console.log('yes you are right!');
+      this.draw.sendFind({find: 'yes!!!!!!'})
+      this.clearCanvas();
+      this.draw.sendGameStatus({status: 'true'});
+      this.startGame();
+      return true;
     }
     else {
       console.log('try again!');
+      this.setState({answer: 'sorry try again!'})
     }
 
   }
 
+  startGame = () => {
+    clearInterval(this.timerID);
+    // this.setState({receivedMessage: null, findMessage: null});
+    this.seconds = 30;
+    this.timer();
+    this.generateRandomWords();
+  }
   // <Loadingpage/>
   render(){
     return(
@@ -228,7 +274,7 @@ export default class DrawPage extends React.Component{
         this.props.userDetails.draw ?
         <div className='draw-container'>
           <div className='drawPanel-container-top'>
-            <button onClick={this.generateRandomWords}>Run</button>
+            <button onClick={this.startGame} className="run">Run</button>
             <div className="draw-word">Please Draw
               {
                 this.currentWord ?
@@ -242,14 +288,26 @@ export default class DrawPage extends React.Component{
               }
             </div>
 
-            <h3>Time Remaining: <span>{this.state.seconds}</span> seconds!</h3>
+            <h3 className='time'>Time Remaining: <span>{this.seconds}</span> seconds!</h3>
 
             {
               this.state.receivedMessage?
               <div className='message-from-gusser'>
-                {
-                  // this.state.receivedMessage
-                }
+                <h3 className="message">Is&nbsp;  &nbsp;
+                  <span className="guessMessage">
+                    {
+                      this.state.receivedMessage
+                    }
+                  </span>
+                        &nbsp;  &nbsp;?
+                  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;
+                  {
+                    this.state.findMessage ?
+                    <span>{this.state.findMessage}</span>
+                    :
+                    null
+                  }
+                </h3>
               </div>
               :
               null
@@ -271,7 +329,9 @@ export default class DrawPage extends React.Component{
                 canvasHeight={this.state.height}
                 brushRadius = {4}
                 hideGrid
-                ref={canvasDraw => (this.saveableCanvas = canvasDraw)}
+                ref={canvasDraw => {
+                  this.saveableCanvas = canvasDraw;
+                }}
                 />
             </div>
           </div>
@@ -280,23 +340,25 @@ export default class DrawPage extends React.Component{
         <div className="guess-container">
           <h3>Guess!</h3>
 
-          <h3>Time Remaining: {this.state.receivedSeconds} seconds!</h3>
-          <CanvasDraw className='drawPanel'
-            canvasWidth={this.state.width}
-            canvasHeight={this.state.height}
-            brushRadius = {0}
-            brushColor = {this.state.color}
-            catenaryColor = {this.state.color}
-            disabled
-            hideGrid
+          <h3 className="time">Time Remaining: <span>{this.state.receivedSeconds}</span> seconds!</h3>
+          <div className="draw">
+            <CanvasDraw className='drawPanel'
+              canvasWidth={this.state.width}
+              canvasHeight={this.state.height}
+              brushRadius = {0}
+              brushColor = {this.state.color}
+              catenaryColor = {this.state.color}
+              disabled
+              hideGrid
 
-            ref={canvasDraw => (this.loadableCanvas = canvasDraw)}
-          />
+              ref={canvasDraw => (this.loadableCanvas = canvasDraw)}
+              />
 
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" placeholder="Type Your Answer Here!" onChange={this.handleMessageChange}/>
-          <button onClick={this.compareResults} type="submit">Answer!</button>
-        </form>
+            <form onSubmit={this.handleSubmit}>
+              <input type="text" placeholder="Type Your Answer Here!" onChange={this.handleMessageChange} className="messageBox"/>
+              <button onClick={this.compareResults} type="submit" className="answer">Answer!</button>
+            </form>
+          </div>
         </div>
          :
         <h2>Please <Link to='/login'>Login</Link> to continue draw!</h2>

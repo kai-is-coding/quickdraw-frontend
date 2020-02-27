@@ -59,7 +59,7 @@ export default class Routes extends React.Component {
   }
   render (){
     return (
-      <div>
+      <div className="content">
       <Router>
         <div className='header'>
           <h1>Quick Draw</h1>
@@ -85,7 +85,8 @@ export default class Routes extends React.Component {
           <Switch>
             <Route exact path="/" component={Home}/>
             <Route exact path="/playrooms" render={
-              props => (<PlayRooms {...props} handleLogin={this.handleLogin} loggedInStatus = {this.state.isLoggedIn}/>)
+              props => (<PlayRooms {...props} handleLogin={this.handleLogin} loggedInStatus = {this.state.isLoggedIn}
+              userDetails = {this.state.user}/>)
             }/>
             <Route exact path="/login" render={
               props => (<Login {...props} handleLogin={this.handleLogin} loggedInStatus = {this.state.isLoggedIn}/>)
