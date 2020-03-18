@@ -18,27 +18,28 @@ export default class DrawPage extends React.Component{
 
   timerID = null;
 
-  state = {
-    width: window.innerWidth * 0.6,
-    height: window.innerHeight * 0.5,
-    color: '#fff',
-    room: null,
-    inputMessage: null,
-    receivedMessage: null,
-    currentWord: null,
-    // receivedCurrentWord: null,
-    // seconds: 30,
-    receivedSeconds: 30,
-    restart: false,
-    findMessage: null,
-    answer: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      width: window.innerWidth * 0.6,
+      height: window.innerHeight * 0.5,
+      color: '#fff',
+      room: null,
+      inputMessage: null,
+      receivedMessage: null,
+      currentWord: [],
+      receivedCurrentWord: null,
+      seconds: 30,
+      receivedSeconds: 30,
+      restart: false,
+      findMessage: null,
+      answer: null
+    };
+  }
+
   // inital values
   // give empty word container
-  seconds = 30;
   wordsArray = [];
-  // currentWord = null;
-  receivedCurrentWord = null;
 
   //get current playroom details when the page first load.
   // create websocket channel, send and receive data through actioncable.
@@ -81,12 +82,11 @@ export default class DrawPage extends React.Component{
             this.setState({receivedSeconds: data.time});
           }
           else if (data.action === "send_word") {
-            // this.setState({receivedCurrentWord: data.word});
-            this.receivedCurrentWord = data.word
+            this.setState({receivedCurrentWord: data.word});
+            // this.receivedCurrentWord = data.word
             // console.log('receivedCurrentWord:', this.receivedCurrentWord);
           }
           else if (data.action === "send_game_status") {
-            // console.log('changed game status!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
             if (data.status === 'true') {
               this.startGame();
             }
@@ -140,6 +140,7 @@ export default class DrawPage extends React.Component{
     event.preventDefault();
     // console.log('message submit:', this.state.inputMessage);
     this.draw.sendMessage({inputMessage: this.state.inputMessage});
+    this.compareResults();
   }
 
   // handle answer input change
@@ -209,20 +210,19 @@ export default class DrawPage extends React.Component{
     if (!this.wordsArray.includes(words[randomIndex])) {
       this.wordsArray.push(words[randomIndex]);
       // console.log(this.wordsArray);
-      // console.log(words[randomIndex]);
-      this.setState({currentWord: words[randomIndex]});
-      // this.currentWord = words[randomIndex];
-      // console.log(this.state.currentWord);
-      // this.draw.sendWord({word: this.currentWord});
+      this.setState({currentWord: words[randomIndex]}, () => {
+        console.log('currentWord is', this.state.currentWord);
+        this.draw.sendWord({word: this.state.currentWord});
+      });
     }
   }
 
-
   timer = () => {
     this.timerID = window.setInterval(() => {
-    this.seconds -= 1;
-    if (this.seconds >= 0) {
-      this.draw.sendTime({time: this.seconds});
+    this.setState({seconds: this.state.seconds - 1})
+    // this.state.seconds -= 1;
+    if (this.state.seconds >= 0) {
+      this.draw.sendTime({time: this.state.seconds});
 
     }
     else {
@@ -235,37 +235,40 @@ export default class DrawPage extends React.Component{
   }, 1000)}
 
   compareResults = () => {
-    if (this.state.currentWord && this.state.inputMessage) {
 
-      console.log('currentWord:', this.state.currentWord);
-      console.log('receivedMessage:', this.state.inputMessage);
-      let question = this.state.currentWord;
-      let answer = this.state.inputMessage;
+    let question = this.state.receivedCurrentWord;
+    let answer = this.state.inputMessage;
+
+      console.log('currentWord:', question);
+      console.log('receivedAnswer:', answer);
 
       if (question === answer || answer.includes(question)) {
         // console.log('yes you are right!');
+        this.draw.sendGameStatus({status: 'true'});
         this.draw.sendFind({find: 'yes!!!!!!'})
         this.clearCanvas();
-        this.draw.sendGameStatus({status: 'true'});
-        this.startGame();
+        // this.startGame();
+        this.setState({answer: null});
         // return true;
       }
       else {
-        // console.log('try again!');
+        console.log('try again!');
         this.setState({answer: 'sorry try again!'})
       }
-    }
+    // }
 
   }
 
   startGame = () => {
     clearInterval(this.timerID);
     // this.setState({receivedMessage: null, findMessage: null});
-    this.seconds = 30;
-    this.draw.sendTime({time: this.seconds});
+    this.setState({seconds: 30});
+    this.draw.sendTime({time: this.state.seconds});
     this.timer();
     this.generateRandomWords();
+
   }
+
   // <Loadingpage/>
   render(){
     return(
@@ -291,7 +294,7 @@ export default class DrawPage extends React.Component{
               }
             </div>
 
-            <h3 className='time'>Time Remaining: <span>{this.seconds}</span> seconds!</h3>
+            <h3 className='time'>Time Remaining: <span>{this.state.seconds}</span> seconds!</h3>
 
             {
               this.state.receivedMessage?
@@ -342,7 +345,12 @@ export default class DrawPage extends React.Component{
         :
         <div className="guess-container">
           <h3>Guess!</h3>
-
+            {
+              this.state.answer ?
+              <span>{this.state.answer}</span>
+              :
+              null
+            }
           <h3 className="time">Time Remaining: <span>{this.state.receivedSeconds}</span> seconds!</h3>
           <div className="draw">
             <CanvasDraw className='drawPanel'
@@ -359,7 +367,7 @@ export default class DrawPage extends React.Component{
 
             <form onSubmit={this.handleSubmit}>
               <input type="text" placeholder="Type Your Answer Here!" onChange={this.handleMessageChange} className="messageBox"/>
-              <button onClick={this.compareResults} type="submit" className="answer">Answer!</button>
+              <button type="submit" className="answer">Answer!</button>
             </form>
           </div>
         </div>
