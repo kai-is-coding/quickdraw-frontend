@@ -25,7 +25,7 @@ export default class DrawPage extends React.Component{
     room: null,
     inputMessage: null,
     receivedMessage: null,
-    // currentWord: null,
+    currentWord: null,
     // receivedCurrentWord: null,
     // seconds: 30,
     receivedSeconds: 30,
@@ -37,7 +37,7 @@ export default class DrawPage extends React.Component{
   // give empty word container
   seconds = 30;
   wordsArray = [];
-  currentWord = null;
+  // currentWord = null;
   receivedCurrentWord = null;
 
   //get current playroom details when the page first load.
@@ -83,7 +83,7 @@ export default class DrawPage extends React.Component{
           else if (data.action === "send_word") {
             // this.setState({receivedCurrentWord: data.word});
             this.receivedCurrentWord = data.word
-            console.log('receivedCurrentWord:', this.receivedCurrentWord);
+            // console.log('receivedCurrentWord:', this.receivedCurrentWord);
           }
           else if (data.action === "send_game_status") {
             // console.log('changed game status!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
@@ -123,9 +123,6 @@ export default class DrawPage extends React.Component{
 
   // handle draw lines change
   handleChange = (event) => {
-    // window.lines = event.lines;
-    // window.canvas = this.saveableCanvas
-    // console.log('change', event.lines );
     this.draw.sendLine({lines: event.lines});
   }
 
@@ -211,47 +208,52 @@ export default class DrawPage extends React.Component{
     const randomIndex = Math.floor(Math.random() * (words.length+1));
     if (!this.wordsArray.includes(words[randomIndex])) {
       this.wordsArray.push(words[randomIndex]);
-      console.log(this.wordsArray);
+      // console.log(this.wordsArray);
       // console.log(words[randomIndex]);
-      // this.setState({currentWord: words[randomIndex]});
-      this.currentWord = words[randomIndex];
-      // console.log(this.currentWord);
-      this.draw.sendWord({word: this.currentWord});
+      this.setState({currentWord: words[randomIndex]});
+      // this.currentWord = words[randomIndex];
+      // console.log(this.state.currentWord);
+      // this.draw.sendWord({word: this.currentWord});
     }
   }
 
 
   timer = () => {
     this.timerID = window.setInterval(() => {
-    // this.setState({seconds: this.seconds - 1});
     this.seconds -= 1;
-    this.draw.sendTime({time: this.seconds});
-    if (this.seconds <= 0 && !this.compareResults) {
-      clearInterval(this.timerID);
+    if (this.seconds >= 0) {
+      this.draw.sendTime({time: this.seconds});
+
+    }
+    else {
       this.startGame();
-      if (this.saveableCanvas) {
-        this.saveableCanvas.clear();
-      }
+      this.clearCanvas();
+      // if (this.saveableCanvas) {
+      //   this.saveableCanvas.clear();
+      // }
     }
   }, 1000)}
 
   compareResults = () => {
-    console.log('currentWord:', this.receivedCurrentWord);
-    console.log('receivedMessage:', this.state.inputMessage);
-    let question = this.receivedCurrentWord;
-    let answer = this.state.inputMessage;
+    if (this.state.currentWord && this.state.inputMessage) {
 
-    if (question === answer || answer.includes(question)) {
-      console.log('yes you are right!');
-      this.draw.sendFind({find: 'yes!!!!!!'})
-      this.clearCanvas();
-      this.draw.sendGameStatus({status: 'true'});
-      this.startGame();
-      return true;
-    }
-    else {
-      console.log('try again!');
-      this.setState({answer: 'sorry try again!'})
+      console.log('currentWord:', this.state.currentWord);
+      console.log('receivedMessage:', this.state.inputMessage);
+      let question = this.state.currentWord;
+      let answer = this.state.inputMessage;
+
+      if (question === answer || answer.includes(question)) {
+        // console.log('yes you are right!');
+        this.draw.sendFind({find: 'yes!!!!!!'})
+        this.clearCanvas();
+        this.draw.sendGameStatus({status: 'true'});
+        this.startGame();
+        // return true;
+      }
+      else {
+        // console.log('try again!');
+        this.setState({answer: 'sorry try again!'})
+      }
     }
 
   }
@@ -260,6 +262,7 @@ export default class DrawPage extends React.Component{
     clearInterval(this.timerID);
     // this.setState({receivedMessage: null, findMessage: null});
     this.seconds = 30;
+    this.draw.sendTime({time: this.seconds});
     this.timer();
     this.generateRandomWords();
   }
@@ -277,10 +280,10 @@ export default class DrawPage extends React.Component{
             <button onClick={this.startGame} className="run">Run</button>
             <div className="draw-word">Please Draw
               {
-                this.currentWord ?
+                this.state.currentWord ?
 
                   <span>
-                    {this.currentWord}
+                    {this.state.currentWord}
                   </span>
 
                 :
