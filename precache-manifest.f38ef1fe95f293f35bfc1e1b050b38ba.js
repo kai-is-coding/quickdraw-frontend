@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e6e812313d738532002420b424909b9f",
+    "revision": "445747cdcdf3bf4b935e0cec646e0daa",
     "url": "/quickdraw-frontend/index.html"
   },
   {
