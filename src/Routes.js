@@ -43,7 +43,7 @@ export default class Routes extends React.Component {
   }
 
   loginStatus = () => {
-    console.log("CHECKING IF USER LOGGED IN");
+    // console.log("CHECKING IF USER LOGGED IN");
     // withCredentials: true is the key point!!
     // it allows out rails server to set and read the cookie on the front end
     // axios.get('https://quickdraw-backend.herokuapp.com/logged_in', {withCredentials: true})

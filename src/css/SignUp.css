@@ -1,9 +1,7 @@
 .sign {
-  width: 25vw;
-  height: 60vh;
-  margin: auto;
-  margin-top: 8vh;
-  margin-bottom: 8vh;
+  width: 500px;
+  height: 600px;
+  margin: 80px auto;
   text-align: center;
   font-size: 1.5em;
   border-radius: 10px;
@@ -12,7 +10,7 @@
 }
 
 .sign > h1 {
-  padding-top: 4vh;
+  padding-top: 50px;
   color: #24305e;
 }
 
@@ -21,8 +19,8 @@
 } */
 .sign > form >input {
   margin: 10px;
-  height: 5vh;
-  width: 17vw;
+  height: 50px;
+  width: 300px;
   border-radius: 5px;
   font-size: 1em;
   color: #374785;
@@ -31,8 +29,8 @@
 }
 
 .submit {
-  width: 7vw;
-  height: 5vh;
+  width: 100px;
+  height: 50px;
   background-color: #24305e;
   font-size: 1em;
   font-family: 'Acme', sans-serif;
@@ -42,20 +40,4 @@
 .submit:hover{
   color: #f8e9a1;
   transform: scale(1.2);
-}
-
-.or {
-  margin-top: 2vh;
-}
-
-.or > span {
-  color: #f76c6c;
-}
-.or > .signup {
-  padding-left: 3px;
-  text-decoration: none;
-  color: white;
-}
-.or > .signup:hover {
-  color: #f8e9a1;
 }

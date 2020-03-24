@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
-import Home from './Home';
 import '../css/PlayRooms.css';
 import '../App.css';
 import {API_WS_ROOT} from '../constants';
@@ -219,8 +218,7 @@ class PlayRooms extends React.Component {
         </div>
          :
         <div className="message">
-          <h2>Please <Link to='/login' id="loginLink">Login</Link> to select playroom!</h2>
-          <Home/>
+          <h2 className='error-message'>Please <Link to='/login' id="loginLink">Login</Link> to select playroom!</h2>
         </div>
       }
       </div>

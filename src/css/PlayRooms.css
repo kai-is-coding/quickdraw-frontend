@@ -1,6 +1,5 @@
 .container {
   margin: auto;
-  height: 70vh;
   text-align: center;
   /* border: 1px solid black; */
 }
@@ -14,15 +13,17 @@
 
 
 .playrooms-container {
-  margin-top: 7vh;
+  margin-top: 30px;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 .playrooms {
+  margin: 30px;
   border-radius: 5px;
   box-shadow: 0 0 0 10px #374785;
-  width: 30%;
+  width: 300px;
   text-align: center;
   /* margin: 15px auto; */
   /* margin-bottom: 15vh; */
@@ -39,17 +40,8 @@
 .drawer-container, .guesser-container{
   position: relative;
   width: 50%;
-  /* height: 35vh; */
   border-top: 6px solid #f8e9a1;
 }
-/* .drawer-container{
-  border-right: 3px solid #f8e9a1;
-}
-.guesser-container {
-  border-left: 3px solid #f8e9a1;
-} */
-
-
 .subTitle {
   font-size: 1.5em;
   color:
@@ -57,14 +49,14 @@
 .drawer, .guesser {
   position: relative;
   margin: 5px auto;
-  width: 4vw;
-  height: 6vh;
+  width: 60px;
+  height: 40px;
   border-radius: 10px;
 }
 
-.message > h2 {
+.error-message {
   margin-left: 10px;
-  color: #f76c6c;
+  /* color: #f76c6c; */
 }
 
 #loginLink {
