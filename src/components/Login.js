@@ -28,7 +28,7 @@ export default class Login extends React.Component{
     axios.post('https://quickdraw-backend.herokuapp.com/login', {user}, {withCredentials: true})
     .then(res => {
       if (res.data.logged_in) {
-        console.log(res.data)
+        // console.log(res.data)
         this.props.handleLogin(res.data)
         this.redirect()
       } else {
