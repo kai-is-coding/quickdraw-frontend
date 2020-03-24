@@ -10,10 +10,6 @@ import SignUp from './components/SignUp';
 import DrawPage from './components/DrawPage';
 import './css/Routes.css';
 
-// import {ActionCableProvider} from 'react-actioncable-provider';
-// import {API_WS_ROOT} from './constants';
-
-
 export default class Routes extends React.Component {
   // maintain login status data
   state = {
@@ -46,8 +42,8 @@ export default class Routes extends React.Component {
     // console.log("CHECKING IF USER LOGGED IN");
     // withCredentials: true is the key point!!
     // it allows out rails server to set and read the cookie on the front end
-    // axios.get('https://quickdraw-backend.herokuapp.com/logged_in', {withCredentials: true})
-    axios.get('http://localhost:3001/logged_in', {withCredentials: true})
+    axios.get('https://quickdraw-backend.herokuapp.com/logged_in', {withCredentials: true})
+    // axios.get('http://localhost:3001/logged_in', {withCredentials: true})
     .then(res => {
       if (res.data.logged_in) {
         this.handleLogin(res.data)

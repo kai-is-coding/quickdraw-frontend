@@ -8,8 +8,8 @@ import '../index.css';
 
 const Navigation = (props) => {
   const handleClick = () => {
-    axios.delete('http://localhost:3001/logout', {withCredentials: true})
-    // axios.delete('https://quickdraw-backend.herokuapp.com/logout', {withCredentials: true})
+    // axios.delete('http://localhost:3001/logout', {withCredentials: true})
+    axios.delete('https://quickdraw-backend.herokuapp.com/logout', {withCredentials: true})
     .then(res => {
       props.handleLogout()
       props.history.push('/')

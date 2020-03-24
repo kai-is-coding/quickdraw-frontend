@@ -45,10 +45,10 @@ export default class DrawPage extends React.Component{
     const playroom_id = this.props.match.params.id;
 
     axios.get(
-      `http://localhost:3001/playrooms/${playroom_id}`,{withCredentials: true})
-      // `https://quickdraw-backend.herokuapp.com/playrooms/${playroom_id}`,{withCredentials: true})
+      // `http://localhost:3001/playrooms/${playroom_id}`,{withCredentials: true})
+      `https://quickdraw-backend.herokuapp.com/playrooms/${playroom_id}`,{withCredentials: true})
     .then(res => {
-      console.log(`you are in room ${playroom_id}`);
+      // console.log(`you are in room ${playroom_id}`);
       this.setState({room: res.data})
       // console.log(this.state.room);
     })
@@ -61,7 +61,7 @@ export default class DrawPage extends React.Component{
       {channel: 'DrawsChannel', playroom: `${playroom_id}`},
       {
         connected: () => {
-          console.log('DrawsChannel WS CONNECTED!');
+          // console.log('DrawsChannel WS CONNECTED!');
         },
         received: (data) => {
           // console.log(data);
@@ -252,7 +252,7 @@ export default class DrawPage extends React.Component{
       this.wordsArray.push(words[randomIndex]);
       // console.log(this.wordsArray);
       this.setState({currentWord: words[randomIndex]}, () => {
-        console.log('currentWord is', this.state.currentWord);
+        // console.log('currentWord is', this.state.currentWord);
         this.draw.sendWord({word: this.state.currentWord});
       });
     }
@@ -276,8 +276,8 @@ export default class DrawPage extends React.Component{
     let question = this.state.receivedCurrentWord;
     let answer = this.state.inputMessage;
 
-      console.log('currentWord:', question);
-      console.log('receivedAnswer:', answer);
+      // console.log('currentWord:', question);
+      // console.log('receivedAnswer:', answer);
 
       if (question === answer || answer.includes(question)) {
         this.draw.sendFind({visibility: 'visible'});
@@ -291,7 +291,6 @@ export default class DrawPage extends React.Component{
         this.clearCanvas();
       }
       else {
-        console.log('try again!');
         this.setState({answer: 'sorry try again!'});
       }
   }
