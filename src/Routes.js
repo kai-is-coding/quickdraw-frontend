@@ -81,7 +81,7 @@ export default class Routes extends React.Component {
               </div>
             </div>
         </div>
-        <div>
+        <div className='components'>
           <Switch>
             <Route exact path="/" component={Home}/>
             <Route exact path="/playrooms" render={

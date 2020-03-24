@@ -11,9 +11,6 @@ import CanvasDraw from 'react-canvas-draw';
 import {API_WS_ROOT} from '../constants';
 import ActionCable from 'actioncable';
 
-
-
-
 export default class DrawPage extends React.Component{
 
   timerID = null;
@@ -21,9 +18,8 @@ export default class DrawPage extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      width: window.innerWidth * 0.6,
-      height: window.innerHeight * 0.5,
-      color: '#fff',
+      width: 600,
+      height: 500,
       room: null,
       inputMessage: null,
       receivedMessage: null,
@@ -33,7 +29,8 @@ export default class DrawPage extends React.Component{
       receivedSeconds: 30,
       restart: false,
       findMessage: null,
-      answer: null
+      answer: null,
+      visibility: 'hidden'
     };
   }
 
@@ -245,7 +242,12 @@ export default class DrawPage extends React.Component{
       if (question === answer || answer.includes(question)) {
         // console.log('yes you are right!');
         this.draw.sendGameStatus({status: 'true'});
-        this.draw.sendFind({find: 'yes!!!!!!'})
+        this.setState({visibility: 'visible'});
+        window.setTimeout(() => {
+          this.setState({visibility: 'hidden'});
+          this.draw.sendFind({find: 'yes!!!!!!'});
+        }, 3000)
+        // this.handleSuccess();
         this.clearCanvas();
         // this.startGame();
         this.setState({answer: null});
@@ -266,8 +268,13 @@ export default class DrawPage extends React.Component{
     this.draw.sendTime({time: this.state.seconds});
     this.timer();
     this.generateRandomWords();
-
   }
+
+  // handleSuccess = () => {
+  //   return(
+  //
+  //   );
+  // }
 
   // <Loadingpage/>
   render(){
@@ -279,67 +286,71 @@ export default class DrawPage extends React.Component{
         ?
         this.props.userDetails.draw ?
         <div className='draw-container'>
-          <div className='drawPanel-container-top'>
-            <button onClick={this.startGame} className="run">Run</button>
-            <div className="draw-word">Please Draw
-              {
-                this.state.currentWord ?
-
-                  <span>
-                    {this.state.currentWord}
-                  </span>
-
-                :
-                null
-              }
-            </div>
-
-            <h3 className='time'>Time Remaining: <span>{this.state.seconds}</span> seconds!</h3>
-
+          <button onClick={this.startGame} className="run">Run</button>
+          <div className="draw-word">Please Draw
             {
-              this.state.receivedMessage?
-              <div className='message-from-gusser'>
-                <h3 className="message">Is&nbsp;  &nbsp;
-                  <span className="guessMessage">
-                    {
-                      this.state.receivedMessage
-                    }
-                  </span>
-                        &nbsp;  &nbsp;?
-                  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;
-                  {
-                    this.state.findMessage ?
-                    <span>{this.state.findMessage}</span>
-                    :
-                    null
-                  }
-                </h3>
-              </div>
+              this.state.currentWord ?
+
+                <span>
+                  {this.state.currentWord}
+                </span>
+
               :
               null
             }
+          </div>
 
-            <div className="draw">
-              <div className="buttons">
-                <img src={clear} alt="clear" onClick={() => {
-                    this.clearCanvas();
-                  }} className="clear"/>
+          <h3 className='time'>Time Remaining: <span>{this.state.seconds}</span> seconds!</h3>
 
-                <img src={undo} alt="undo" onClick={() => {
-                    this.saveableCanvas.undo();
-                  }}className="undo"/>
-              </div>
-              <CanvasDraw className='drawPanel'
-                onChange={this.handleChange}
-                canvasWidth={this.state.width}
-                canvasHeight={this.state.height}
-                brushRadius = {4}
-                hideGrid
-                ref={canvasDraw => {
-                  this.saveableCanvas = canvasDraw;
-                }}
-                />
+          {
+            this.state.receivedMessage?
+            <div className='message-from-gusser'>
+              <h3 className="message">Is&nbsp;  &nbsp;
+                <span className="guessMessage">
+                  {
+                    this.state.receivedMessage
+                  }
+                </span>
+                      &nbsp;  &nbsp;?
+                &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;
+                {
+                  this.state.findMessage ?
+                  <span>{this.state.findMessage}</span>
+                  :
+                  null
+                }
+              </h3>
             </div>
+            :
+            null
+          }
+
+          <div className='success' style={{visibility: this.state.visibility}}>
+            Bingo!
+          </div>
+
+          <div className="draw">
+            <div className="buttons">
+              <img src={clear} alt="clear" onClick={() => {
+                  this.clearCanvas();
+                }} className="clear"/>
+
+              <img src={undo} alt="undo" onClick={() => {
+                  this.saveableCanvas.undo();
+                }}className="undo"/>
+            </div>
+            <CanvasDraw className='drawPanel'
+              onChange={this.handleChange}
+              canvasWidth={this.state.width}
+              canvasHeight={this.state.height}
+              brushRadius = {4}
+              hideGrid
+              hideInterface = {true}
+
+              ref={canvasDraw => {
+                this.saveableCanvas = canvasDraw;
+              }}
+              />
           </div>
         </div>
         :
@@ -352,16 +363,17 @@ export default class DrawPage extends React.Component{
               null
             }
           <h3 className="time">Time Remaining: <span>{this.state.receivedSeconds}</span> seconds!</h3>
+
+          <div className='success' style={{visibility: this.state.visibility}}>
+            Bingo!
+          </div>
           <div className="draw">
             <CanvasDraw className='drawPanel'
               canvasWidth={this.state.width}
               canvasHeight={this.state.height}
-              brushRadius = {0}
-              brushColor = {this.state.color}
-              catenaryColor = {this.state.color}
               disabled
               hideGrid
-
+              hideInterface = {true}
               ref={canvasDraw => (this.loadableCanvas = canvasDraw)}
               />
 
