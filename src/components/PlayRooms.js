@@ -34,7 +34,7 @@ class PlayRooms extends React.Component {
         rooms: res.data,
         currentUser: this.props.userDetails.id
        });
-      console.log('rooms:',this.state.rooms[0]);
+      // console.log('rooms:',this.state.rooms[0]);
     })
     .catch(err => console.warn('playrooms errors: ', err));
 
@@ -44,10 +44,10 @@ class PlayRooms extends React.Component {
       {channel: 'PlayroomsChannel'},
       {
         connected: () => {
-          console.log('PlayroomsChannel WS CONNECTED!');
+          // console.log('PlayroomsChannel WS CONNECTED!');
         },
         received: (data) => {
-          console.log('websocket received data:', data);
+          // console.log('websocket received data:', data);
           this.getSelected(data.roomId, data.role, data.index, data.userId);
 
           if(data.action === 'send_room_selection'){
@@ -62,21 +62,21 @@ class PlayRooms extends React.Component {
             }
 
             const key = `${data.userId}-${data.roomId}-${data.role}-${data.index}`;
-            console.log('new key', key, data);
+            // console.log('new key', key, data);
             otherSelected[key] = true; // set the new selection for this user
-            console.log('new selection', otherSelected);
+            // console.log('new selection', otherSelected);
             this.setState({ otherSelected });
           } // send_room_selection
 
         },
 
         sendValues: function(values){
-          console.log('sendValues', values);
+          // console.log('sendValues', values);
           this.perform('send_values', values);
         },
 
         sendRoomSelectionUpdate: function(data){
-          console.log('sendRoomSelectionUpdate', data);
+          // console.log('sendRoomSelectionUpdate', data);
           this.perform('send_room_selection', data);
         }
       }
@@ -86,7 +86,7 @@ class PlayRooms extends React.Component {
   }//componentDidMount()
 
   handleClick = (id) => {
-    console.log('clicked!')
+    // console.log('clicked!')
     this.props.history.push(`/playrooms/${id}`)
   }
 
@@ -113,13 +113,13 @@ class PlayRooms extends React.Component {
   drawerSelect = (event, roomId, role, index) => {
     event.persist();
     // const roomId = event.target.value;
-    console.log('drawerSelect', {roomId, role, index});
+    // console.log('drawerSelect', {roomId, role, index});
     this.playroom.sendRoomSelectionUpdate({roomId, role, index, userId: this.state.currentUser});
 
     // axios.patch(`https://quickdraw-backend.herokuapp.com/users/${this.props.userDetails.id}`,{playroom_id: roomId, draw: true }, {withCredentials: true})
     axios.patch(`http://localhost:3001/users/${this.props.userDetails.id}`,{playroom_id: roomId, draw: true }, {withCredentials: true})
     .then(res => {
-      console.log('update user drawer successfully!');
+      // console.log('update user drawer successfully!');
       this.setState({ selected: {roomId, role, index} });
       // const style = event.target.style;
       // style.backgroundColor = 'blue';
@@ -137,14 +137,14 @@ class PlayRooms extends React.Component {
 
   guesserSelect = (event, roomId, role, index, userId) => {
     event.persist();
-    console.log('guesserSelect', {roomId, role, index, userId});
+    // console.log('guesserSelect', {roomId, role, index, userId});
 
     this.playroom.sendRoomSelectionUpdate({roomId, role, index, userId: this.state.currentUser});
 
     // axios.patch(`https://quickdraw-backend.herokuapp.com/users/${this.props.userDetails.id}`, {playroom_id: roomId, draw: false }, {withCredentials: true})
     axios.patch(`http://localhost:3001/users/${this.props.userDetails.id}`,{playroom_id: roomId, draw: false }, {withCredentials: true})
     .then(ren => {
-      console.log('update user guesser successfully!');
+      // console.log('update user guesser successfully!');
       this.setState({ selected: {roomId, role, index, userId} });
     })
     .catch(err => console.warn('assign user role errors', err));

@@ -1,21 +1,23 @@
 import React from 'react';
 import '../css/Home.css';
-
+import draw from '../image/draw.png';
 
 const Home = () => {
   return(
     <div>
-      <nav>
-        <h3>Things to know:</h3>
-        <p>
-          <span className="intro">Quick draw</span>, is the ability to quickly draw a handgun and fire it accurately on a target. This skill was made popular by romanticized depictions of gunslingers in the Western genre, which in turn were inspired by famous historical gunfights in the American Old West.
-
-          In modern times, fast draw can be seen both in sports and in military practices. The World Fast Draw Association (WFDA) is the international sanctioning body of the sport of fast draw. Unlike cowboy action shooting, fast draw is shot with special blanks or wax bullets. While some competitions are strictly against the clock, with the fastest time winning, many are set up as head to head single or double elimination matches.
-        </p>
-        <div className="showpage">
-          <img src="https://3.bp.blogspot.com/-0xG5sTRqPtQ/W-2oJuTNWmI/AAAAAAAABvU/GcYue9KOUyw7ZfUq-SgDUJNisYeiP8_GgCLcBGAs/s1600/image9.jpg" alt="showpage"/>
-        </div>
-      </nav>
+      <h3>Things to know:</h3>
+      <p>
+        <span className="intro">Quick draw</span>,  is one type of guessing game.
+      </p>
+      <p>
+        A guessing game is a game in which the object is to use guessing to discover some kind of information, such as a word, a phrase, a title, or the identity or location of an object. A guessing game has as its core a piece of information that one player knows, and the object is to coerce others into guessing that piece of information without actually divulging it in text or spoken word. Charades is probably the most well-known game of this type, and has spawned numerous commercial variants that involve differing rules on the type of communication to be given, such as Catch Phrase, Taboo, Pictionary, and similar. The genre also includes many game shows such as Win, Lose or Draw, Password and $25,000 Pyramid.
+      </p>
+      <p>
+        Many of the games are played co-operatively. In some games some player(s) know the answer, but cannot tell the other(s), instead they must help them to guess it. Guessing games are "readily adaptable for classroom use", as such a game "creates just enough tension to remain exciting, challenging, and competitive" for children, so long as the teacher designs effective rules "to eliminate unruly or unsportsmanship behavior". It has been noted, however, that children in therapy may initiate guessing games as a way to avoid talking about distressing issues, and that therapists who are using other kinds of games to facilitate communication should avoid being drawn into them.
+      </p>
+      <div className="showpage">
+        <img src={draw} alt="showpage"/>
+      </div>
     </div>
   );
 };

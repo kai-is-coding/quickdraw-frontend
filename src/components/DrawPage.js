@@ -10,6 +10,7 @@ import CanvasDraw from 'react-canvas-draw';
 // import Loadingpage from './Loadingpage';
 import {API_WS_ROOT} from '../constants';
 import ActionCable from 'actioncable';
+import Confetti from 'react-confetti';
 
 export default class DrawPage extends React.Component{
 
@@ -86,10 +87,15 @@ export default class DrawPage extends React.Component{
           else if (data.action === "send_game_status") {
             if (data.status === 'true') {
               this.startGame();
+              this.setState({
+                visibility: data.visibility,
+                receivedMessage: data.receivedMessage
+              })
             }
           }
           else if (data.action === "send_find") {
-            this.setState({findMessage: data.find})
+            this.clearCanvas();
+            this.setState({visibility: data.visibility});
           }
         },
 
@@ -111,8 +117,8 @@ export default class DrawPage extends React.Component{
         sendGameStatus: function(status){
           this.perform('send_game_status', status)
         },
-        sendFind: function(find){
-          this.perform('send_find', find);
+        sendFind: function(visibility){
+          this.perform('send_find', visibility);
         }
       }
     );//this.draw
@@ -145,7 +151,45 @@ export default class DrawPage extends React.Component{
     this.setState({inputMessage: event.target.value})
   }
 
+  //handle message from guesser
+  handleReceivedMessage = () => {
+    if (this.state.receivedMessage) {
+      return(
+        <div className='message-from-gusser'>
+          <h3 className="message">Is&nbsp;  &nbsp;
+            <span className="guessMessage">
+              {
+                this.state.receivedMessage
+              }
+            </span>
+            ?
+          </h3>
+        </div>
+      );
+    }
+    window.setTimeout(() => {
+      this.setState({receivedMessage: null})
+    }, 3000)
+  }
 
+  handleErrorMessage = () => {
+    if (this.state.answer) {
+      return(
+        <div className='message-from-gusser'>
+          <h3 className="message">
+            <span className="guessMessage">
+              {
+                this.state.answer
+              }
+            </span>
+          </h3>
+        </div>
+      )
+    }
+    window.setTimeout(() => {
+      this.setState({answer: null})
+    }, 3000)
+  }
   // generateRandomWords and display
   generateRandomWords = () => {
     // words container
@@ -220,14 +264,10 @@ export default class DrawPage extends React.Component{
     // this.state.seconds -= 1;
     if (this.state.seconds >= 0) {
       this.draw.sendTime({time: this.state.seconds});
-
     }
     else {
       this.startGame();
       this.clearCanvas();
-      // if (this.saveableCanvas) {
-      //   this.saveableCanvas.clear();
-      // }
     }
   }, 1000)}
 
@@ -240,43 +280,39 @@ export default class DrawPage extends React.Component{
       console.log('receivedAnswer:', answer);
 
       if (question === answer || answer.includes(question)) {
-        // console.log('yes you are right!');
-        this.draw.sendGameStatus({status: 'true'});
-        this.setState({visibility: 'visible'});
+        this.draw.sendFind({visibility: 'visible'});
         window.setTimeout(() => {
-          this.setState({visibility: 'hidden'});
-          this.draw.sendFind({find: 'yes!!!!!!'});
+          this.draw.sendGameStatus({
+            status: 'true',
+            visibility: 'hidden',
+            receivedMessage: null
+          });
         }, 3000)
-        // this.handleSuccess();
         this.clearCanvas();
-        // this.startGame();
-        this.setState({answer: null});
-        // return true;
       }
       else {
         console.log('try again!');
-        this.setState({answer: 'sorry try again!'})
+        this.setState({answer: 'sorry try again!'});
       }
-    // }
-
   }
 
+handleBingo = () => {
+  // const {width, height} = useWindowSize()
+  return(
+    <div className='success' style={{visibility: this.state.visibility}}>
+      <span className='bingo'>Bingo!</span>
+      <Confetti width={window.innerWidth} height={window.innerHeight}/>
+    </div>
+  )
+}
   startGame = () => {
     clearInterval(this.timerID);
-    // this.setState({receivedMessage: null, findMessage: null});
     this.setState({seconds: 30});
     this.draw.sendTime({time: this.state.seconds});
     this.timer();
     this.generateRandomWords();
   }
 
-  // handleSuccess = () => {
-  //   return(
-  //
-  //   );
-  // }
-
-  // <Loadingpage/>
   render(){
     return(
 
@@ -303,31 +339,12 @@ export default class DrawPage extends React.Component{
           <h3 className='time'>Time Remaining: <span>{this.state.seconds}</span> seconds!</h3>
 
           {
-            this.state.receivedMessage?
-            <div className='message-from-gusser'>
-              <h3 className="message">Is&nbsp;  &nbsp;
-                <span className="guessMessage">
-                  {
-                    this.state.receivedMessage
-                  }
-                </span>
-                      &nbsp;  &nbsp;?
-                &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;
-                {
-                  this.state.findMessage ?
-                  <span>{this.state.findMessage}</span>
-                  :
-                  null
-                }
-              </h3>
-            </div>
-            :
-            null
+            this.handleReceivedMessage()
           }
 
-          <div className='success' style={{visibility: this.state.visibility}}>
-            Bingo!
-          </div>
+          {
+            this.handleBingo()
+          }
 
           <div className="draw">
             <div className="buttons">
@@ -357,16 +374,14 @@ export default class DrawPage extends React.Component{
         <div className="guess-container">
           <h3>Guess!</h3>
             {
-              this.state.answer ?
-              <span>{this.state.answer}</span>
-              :
-              null
+              this.handleErrorMessage()
             }
           <h3 className="time">Time Remaining: <span>{this.state.receivedSeconds}</span> seconds!</h3>
 
-          <div className='success' style={{visibility: this.state.visibility}}>
-            Bingo!
-          </div>
+          {
+            this.handleBingo()
+          }
+
           <div className="draw">
             <CanvasDraw className='drawPanel'
               canvasWidth={this.state.width}

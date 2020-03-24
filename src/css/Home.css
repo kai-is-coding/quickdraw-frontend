@@ -1,5 +1,7 @@
 .showpage {
   margin: 0 auto;
+  width: 100%;
+  height: auto;
   border: 1px solid black;
   border: 10px solid #374785;
   border-radius: 10px;
@@ -19,6 +21,9 @@ h3 {
 
 p {
   margin: 0 auto;
+  font-size: 1.5em;
+  text-align: justify;
+
   padding-left: 10px;
   margin-bottom: 15px;
 }
