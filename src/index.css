@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Acme&display=swap');
+* {
+  box-sizing: border-box;
+}
 body {
   margin: auto;
   font-family: 'Acme', sans-serif;

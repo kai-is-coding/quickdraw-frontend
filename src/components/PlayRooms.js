@@ -208,7 +208,7 @@ class PlayRooms extends React.Component {
         this.props.loggedInStatus
         ?
         <div>
-          <h1 className="title">Select your PlayRoom!</h1>
+          <h1 className="title">Select Your PlayRoom!</h1>
           {
             this.state.rooms ?
             this.showRooms()

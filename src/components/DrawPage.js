@@ -15,12 +15,11 @@ import Confetti from 'react-confetti';
 export default class DrawPage extends React.Component{
 
   timerID = null;
-
-  constructor(props) {
-    super(props);
+  constructor(){
+    super();
     this.state = {
-      width: 600,
-      height: 500,
+      width: 0,
+      height: 0,
       room: null,
       inputMessage: null,
       receivedMessage: null,
@@ -33,15 +32,18 @@ export default class DrawPage extends React.Component{
       answer: null,
       visibility: 'hidden'
     };
+    window.addEventListener("resize", this.update);
   }
 
   // inital values
   // give empty word container
   wordsArray = [];
 
+
   //get current playroom details when the page first load.
   // create websocket channel, send and receive data through actioncable.
   componentDidMount(){
+    this.update();
     const playroom_id = this.props.match.params.id;
 
     axios.get(
@@ -72,7 +74,11 @@ export default class DrawPage extends React.Component{
           }
           else if (data.action === "send_message") {
             // console.log('receivedMessage:', data.inputMessage);
-            this.setState({receivedMessage: data.inputMessage})
+            if (data.inputMessage) {
+
+              this.setState({receivedMessage: data.inputMessage});
+              this.compareResults();
+            }
             // this.receivedMessage = data.inputMessage;
           }
           else if (data.action === "send_time") {
@@ -86,7 +92,9 @@ export default class DrawPage extends React.Component{
           }
           else if (data.action === "send_game_status") {
             if (data.status === 'true') {
-              this.startGame();
+              this.startTimer();
+
+              // this.startGame();
               this.setState({
                 visibility: data.visibility,
                 receivedMessage: data.receivedMessage
@@ -124,6 +132,13 @@ export default class DrawPage extends React.Component{
     );//this.draw
   }//componentDidMount()
 
+  // update canvas size according to window size
+  update = () => {
+    this.setState({
+      height: window.innerHeight*0.5,
+      width: window.innerWidth*0.6
+    })
+  }
   // handle draw lines change
   handleChange = (event) => {
     this.draw.sendLine({lines: event.lines});
@@ -143,7 +158,7 @@ export default class DrawPage extends React.Component{
     event.preventDefault();
     // console.log('message submit:', this.state.inputMessage);
     this.draw.sendMessage({inputMessage: this.state.inputMessage});
-    this.compareResults();
+    // this.compareResults();
   }
 
   // handle answer input change
@@ -266,33 +281,33 @@ export default class DrawPage extends React.Component{
       this.draw.sendTime({time: this.state.seconds});
     }
     else {
-      this.startGame();
-      this.clearCanvas();
+      this.startTimer();
     }
   }, 1000)}
 
   compareResults = () => {
 
     let question = this.state.receivedCurrentWord;
+    // let question = this.state.currentWord;
     let answer = this.state.inputMessage;
 
-      // console.log('currentWord:', question);
-      // console.log('receivedAnswer:', answer);
+    // console.log('currentWord:', question);
+    // console.log('receivedAnswer:', answer);
 
-      if (question === answer || answer.includes(question)) {
-        this.draw.sendFind({visibility: 'visible'});
-        window.setTimeout(() => {
-          this.draw.sendGameStatus({
-            status: 'true',
-            visibility: 'hidden',
-            receivedMessage: null
-          });
-        }, 3000)
-        this.clearCanvas();
-      }
-      else {
-        this.setState({answer: 'sorry try again!'});
-      }
+    if (question === answer) {
+      this.draw.sendFind({visibility: 'visible'});
+      window.setTimeout(() => {
+        this.draw.sendGameStatus({
+          status: 'true',
+          visibility: 'hidden',
+          receivedMessage: null
+        });
+      }, 3000)
+      // this.clearCanvas();
+    }
+    else {
+      this.setState({answer: 'sorry try again!'});
+    }
   }
 
 handleBingo = () => {
@@ -304,11 +319,21 @@ handleBingo = () => {
     </div>
   )
 }
-  startGame = () => {
+  // startGame = () => {
+  //   clearInterval(this.timerID);
+  //   this.setState({seconds: 30});
+  //   this.draw.sendTime({time: this.state.seconds});
+  //   this.timer();
+  //   // this.generateRandomWords();
+  // }
+
+  startTimer = () => {
     clearInterval(this.timerID);
     this.setState({seconds: 30});
-    this.draw.sendTime({time: this.state.seconds});
     this.timer();
+    this.draw.sendTime({time: this.state.seconds});
+    this.clearCanvas();
+
     this.generateRandomWords();
   }
 
@@ -321,7 +346,7 @@ handleBingo = () => {
         ?
         this.props.userDetails.draw ?
         <div className='draw-container'>
-          <button onClick={this.startGame} className="run">Run</button>
+          <button onClick={this.startTimer} className="run">Run</button>
           <div className="draw-word">Please Draw
             {
               this.state.currentWord ?

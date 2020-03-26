@@ -49,8 +49,9 @@
 .draw {
   /* width: 62%; */
   /* margin: 0 8px; */
-  width: 700px;
-  height: 550px;
+  margin: auto;
+  width: auto;
+  height: auto;
   border-radius: 5px;
   box-shadow: 0 0 0 10px #374785;
   /* margin-bottom: 5vh; */
