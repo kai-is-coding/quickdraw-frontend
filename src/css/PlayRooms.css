@@ -13,17 +13,20 @@
 
 
 .playrooms-container {
-  margin-top: 30px;
+  /* margin-top: 30px; */
+  /* height: 100vh; */
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  /* align-content: center; */
 }
 .playrooms {
-  margin: 30px;
+  margin: 50px;
   border-radius: 5px;
   box-shadow: 0 0 0 10px #374785;
   width: 300px;
+  height: auto;
   text-align: center;
   /* margin: 15px auto; */
   /* margin-bottom: 15vh; */
