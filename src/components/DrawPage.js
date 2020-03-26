@@ -30,7 +30,8 @@ export default class DrawPage extends React.Component{
       restart: false,
       findMessage: null,
       answer: null,
-      visibility: 'hidden'
+      visibility: 'hidden',
+      // loadVisibility: 'visible'
     };
     window.addEventListener("resize", this.update);
   }
@@ -47,12 +48,14 @@ export default class DrawPage extends React.Component{
     const playroom_id = this.props.match.params.id;
 
     axios.get(
-      `http://localhost:3001/playrooms/${playroom_id}`,{withCredentials: true})
-      // `https://quickdraw-backend.herokuapp.com/playrooms/${playroom_id}`,{withCredentials: true})
+      // `http://localhost:3001/playrooms/${playroom_id}`,{withCredentials: true})
+      `https://quickdraw-backend.herokuapp.com/playrooms/${playroom_id}`,{withCredentials: true})
     .then(res => {
       // console.log(`you are in room ${playroom_id}`);
-      this.setState({room: res.data})
-      // console.log(this.state.room);
+      // this.setState({room: res.data}, () => {
+      //   console.log(this.state.room.users.length);
+      //   this.checkUsers();
+      // })
     })
     .catch(err => console.warn('playroom errors: ', err));
 
@@ -139,6 +142,14 @@ export default class DrawPage extends React.Component{
       width: window.innerWidth*0.6
     })
   }
+
+  // checkUsers = () => {
+  //   window.setInterval(() => {
+  //     if (this.state.room.users.length === 2) {
+  //         this.setState({loadVisibility: 'hidden'});
+  //     }
+  //   }, 500)
+  // }
   // handle draw lines change
   handleChange = (event) => {
     this.draw.sendLine({lines: event.lines});
@@ -319,6 +330,14 @@ handleBingo = () => {
     </div>
   )
 }
+
+// handleLoading = () => {
+//   return (
+//     <div className='loadingPage' style={{visibility: this.state.loadVisibility}}>
+//       Wait for another player...
+//     </div>
+//   );
+// }
   // startGame = () => {
   //   clearInterval(this.timerID);
   //   this.setState({seconds: 30});
@@ -370,6 +389,9 @@ handleBingo = () => {
             this.handleBingo()
           }
 
+          {
+            // this.handleLoading()
+          }
           <div className="draw">
             <div className="buttons">
               <img src={clear} alt="clear" onClick={() => {
@@ -405,7 +427,9 @@ handleBingo = () => {
           {
             this.handleBingo()
           }
-
+          {
+            // this.handleLoading()
+          }
           <div className="draw">
             <CanvasDraw className='drawPanel'
               canvasWidth={this.state.width}

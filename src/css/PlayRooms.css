@@ -59,7 +59,7 @@
 
 .error-message {
   margin-left: 10px;
-  /* color: #f76c6c; */
+  background-color: #f76c6c;
 }
 
 #loginLink {

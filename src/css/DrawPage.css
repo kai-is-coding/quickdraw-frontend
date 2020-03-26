@@ -100,7 +100,7 @@
   transform: scale(1.2);
 }
 
-.success {
+.success, .loadingPage {
   font-size: 10em;
   text-align: center;
   vertical-align: middle;
