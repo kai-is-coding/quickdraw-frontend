@@ -48,8 +48,8 @@ export default class DrawPage extends React.Component{
     const playroom_id = this.props.match.params.id;
 
     axios.get(
-      `http://localhost:3001/playrooms/${playroom_id}`,{withCredentials: true})
-      // `https://quickdraw-backend.herokuapp.com/playrooms/${playroom_id}`,{withCredentials: true})
+      // `http://localhost:3001/playrooms/${playroom_id}`,{withCredentials: true})
+      `https://quickdraw-backend.herokuapp.com/playrooms/${playroom_id}`,{withCredentials: true})
     .then(res => {
       // console.log(`you are in room ${playroom_id}`);
       this.setState({room: res.data});
