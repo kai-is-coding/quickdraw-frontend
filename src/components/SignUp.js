@@ -28,8 +28,8 @@ export default class SignUp extends React.Component{
       password_confirmation: this.state.password_confirmation
     }
 
-    // axios.post('http://localhost:3001/users', {user}, {withCredentials: true})
-    axios.post('https://quickdraw-backend.herokuapp.com/users', {user}, {withCredentials: true})
+    axios.post('http://localhost:3001/users', {user}, {withCredentials: true})
+    // axios.post('https://quickdraw-backend.herokuapp.com/users', {user}, {withCredentials: true})
     .then(res => {
       if (res.data.status === 'created') {
         this.props.handleLogin(res.data)

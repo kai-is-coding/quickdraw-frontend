@@ -8,18 +8,18 @@ import '../index.css';
 
 const Navigation = (props) => {
   const handleClick = () => {
-    // axios.delete('http://localhost:3001/logout', {withCredentials: true})
-    axios.delete('https://quickdraw-backend.herokuapp.com/logout', {withCredentials: true})
+    axios.delete('http://localhost:3001/logout', {withCredentials: true})
+    // axios.delete('https://quickdraw-backend.herokuapp.com/logout', {withCredentials: true})
     .then(res => {
       props.handleLogout()
       props.history.push('/')
     })
     .catch(err => console.warn('log out errors:', err));
 
-    axios.patch(`https://quickdraw-backend.herokuapp.com/users/${props.userDetails.id}`,{playroom_id: null, draw: null }, {withCredentials: true})
+    // axios.patch(`https://quickdraw-backend.herokuapp.com/users/${props.userDetails.id}`,{playroom_id: null, draw: null }, {withCredentials: true})
     // axios.patch(`http://localhost:3001/users/${props.userDetails.id}`,{playroom_id: null, draw: null }, {withCredentials: true})
-    .then(console.log('user playroom_id and draw deleted!'))
-    .catch(err => console.warn('clear user details errors:', err));
+    // .then(console.log('user playroom_id and draw deleted!'))
+    // .catch(err => console.warn('clear user details errors:', err));
   }
   return(
     <div>
