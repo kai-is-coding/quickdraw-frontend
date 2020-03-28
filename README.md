@@ -104,7 +104,7 @@ The main function of this application is in `DrawPage.js`. When users selected e
 The data that need to be real-time changing is transformed through WebSocket and received by Backend Channels. Details will be provided in Backend `README.md`. The key point here is ``` playroom: `${playroom_id}` ``` , and at Backend, the data only can be broadcasted in this specified channel. So, only users in this playroom can see these real-time changing.
 
 ## Existing bugs
-The existing bugs are timer. When user run out time, the timer should start again. But it is not working correctly and needs to be fixed. Also, some layout issues need to be fixed as well.
+There are still some bugs with word generation.
 ## Roadmap
 The next step for this project is adding some other features, such as loading page, automatically starting game when playroom is full.
 ## Authors and acknowledgement
